@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint src",
-    "queue:publish": "node src/publisher",
+    "exchange:emit": "node src/emitter",
     "queue:consume": "node src/consumer"
   },
   "dependencies": {
