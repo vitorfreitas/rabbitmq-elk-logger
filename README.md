@@ -15,6 +15,11 @@
 - Run the consumer using `yarn queue:consume`
 - Publish a message using the publisher `yarn exchange:emit`
 
+## Production [Non-]Suitability Disclaimer
+
+The code inside this repo is not production-ready. The content of this repo is
+the product of my recent studies over RabbitMQ, Elasticsearch and Kibana.
+
 ## License
 
 MIT © [Vitor Freitas]()
