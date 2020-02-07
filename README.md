@@ -23,3 +23,5 @@ the product of my recent studies over RabbitMQ, Elasticsearch and Kibana.
 ## License
 
 MIT © [Vitor Freitas]()
+
+**PR's and tips are welcome!**
