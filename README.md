@@ -1,0 +1,20 @@
+[![CircleCI](https://circleci.com/gh/vitorfreitas/rabbitmq-playground.svg?style=svg&circle-token=b26fd3969e38b34bc4322e04908c566a413cf869)](https://circleci.com/gh/vitorfreitas/rabbitmq-playground)
+
+# RabbitMQ + Elasticsearch + Kibana logger
+
+## Dependencies
+
+- [Node.js](https://nodejs.org/en/download/)
+- [Docker](https://docs.docker.com/)
+- [Docker compose](https://docs.docker.com/compose/install/)
+
+## Running the project
+
+- Clone this repo
+- Inside the repo folder, run `docker-compose up -d`
+- Run the consumer using `yarn queue:consume`
+- Publish a message using the publisher `yarn exchange:emit`
+
+## License
+
+MIT © [Vitor Freitas]()
