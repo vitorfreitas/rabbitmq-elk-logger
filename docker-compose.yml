@@ -1,6 +1,7 @@
 version: "3"
 volumes:
   rabbitmq_data:
+  elasticsearch_data:
 services:
   rabbitmq:
     image: rabbitmq:3.6-management-alpine
@@ -16,6 +17,8 @@ services:
       - "9300:9300"
     environment:
       - discovery.type=single-node
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
   kibana:
     image: docker.elastic.co/kibana/kibana:6.8.6
     ports:
