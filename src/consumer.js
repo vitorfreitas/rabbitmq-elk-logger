@@ -11,9 +11,7 @@ async function createChannel(conn) {
 }
 
 async function consumeFromChannel({ channel }) {
-  await channel.assertExchange(exchangeName, 'fanout', {
-    durable: false
-  });
+  await channel.assertExchange(exchangeName, 'fanout', { durable: false });
   const { queue } = await channel.assertQueue('', { exclusive: true });
   console.log(`Listening to \`${exchangeName}\` exchange`);
   channel.bindQueue(queue, exchangeName, '');
