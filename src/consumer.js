@@ -4,6 +4,8 @@ const { Client } = require('@elastic/elasticsearch');
 const esClient = new Client({ node: 'http://localhost:9200' });
 const exchangeName = 'logs';
 
+const severities = ['info', 'warning', 'error'];
+
 async function createChannel(conn) {
   const channel = await conn.createChannel();
 
@@ -11,20 +13,34 @@ async function createChannel(conn) {
 }
 
 async function consumeFromChannel({ channel }) {
-  await channel.assertExchange(exchangeName, 'fanout', { durable: false });
+  await channel.assertExchange(exchangeName, 'direct', { durable: false });
   const { queue } = await channel.assertQueue('', { exclusive: true });
   console.log(`Listening to \`${exchangeName}\` exchange`);
-  channel.bindQueue(queue, exchangeName, '');
-  channel.consume(queue, saveMessageToES);
+
+  severities.forEach(severity => {
+    channel.bindQueue(queue, exchangeName, severity);
+  });
+
+  channel.consume(queue, handleMessageFromPublishers);
+}
+
+function handleMessageFromPublishers(msg) {
+  const message = msg.content.toString();
+  const messageSeverity = msg.fields.routingKey;
+  const selectedSeverity = process.argv[2];
+
+  if (selectedSeverity === messageSeverity) {
+    return saveMessageToES(message);
+  }
+
+  console.log(message);
 }
 
 async function saveMessageToES(message) {
-  const content = message.content.toString();
-
   return esClient
     .index({
       index: exchangeName,
-      body: { content }
+      body: { content: message }
     })
     .catch(err => console.log(err));
 }

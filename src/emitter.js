@@ -4,13 +4,19 @@ const exchangeName = 'logs';
 
 async function setupExchange(conn) {
   const channel = await conn.createChannel();
-  await channel.assertExchange(exchangeName, 'fanout', { durable: false });
+  await channel.assertExchange(exchangeName, 'direct', { durable: false });
 
   return { conn, channel };
 }
 
 async function publishDefaultMessage({ conn, channel }) {
-  await channel.publish(exchangeName, '', Buffer.from('Incredible message'));
+  const routeName = process.argv[2];
+
+  await channel.publish(
+    exchangeName,
+    routeName,
+    Buffer.from('Incredible message')
+  );
 
   return {
     conn,
